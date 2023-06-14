@@ -80,3 +80,35 @@ $OutputcustomPath = "C:\temp\TbbPwsh\Log-11.txt"
 Get-Service |
     Where-Object {$PSItem.Status -eq "Stopped" -and $PSItem.StartType -eq "Automatic"} |
         Out-File -FilePath $OutputcustomPath
+
+
+
+$TimeDemo = "Ercan"
+
+$Computers = "LON-DC1","LON-DC2","LON-DC3"
+$Computers.GetType()
+$Computers.Count
+
+$Services = Get-Service -Name ALG,BITS
+$Services.GetType()
+
+[array]$NewUser = "Ercan"
+$NewUser = $NewUser + "Alican"
+$NewUser = $NewUser + "Teslime"
+
+$EmtypArray = @()
+
+[Array]$Emt = ""
+
+$Emt = $Emt + "ssadarffsadadsada"
+
+$EmtypArray = $EmtypArray + "Demo1"
+
+$EmtypArray | Select-Object -First 1 -Skip 1
+
+$EmtypArray[1]
+
+$Services = Get-Service
+$Services[100].Name
+
+$Services | Select-Object -Skip 99 -First 1
