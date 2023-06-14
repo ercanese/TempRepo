@@ -121,3 +121,41 @@ Get-HotFix | Select-Object -Property HotFixID,Description,@{
     n='HotfixAge';
     e={ (New-TimeSpan -Start $PSItem.InstalledOn).Days}
 } | Sort-Object -Property HotfixAge
+
+
+
+
+#Where-Object
+Get-Process | Where-Object {$PSItem.CPU -ge 10} | Sort-Object -Property CPU
+Get-Process | Where-Object {$PSItem.Name -like "*Teams*"}
+
+Get-Process -Name *Teams*
+
+#Durmuş olan servisleri isme göre tersten ekranda sadece name,status ve starttype değeri olacak şekilde listeleyelim.
+Get-Service | 
+    Where-Object {$PSItem.Status -eq "Stopped"} | 
+        Sort-Object -Property NAme -Descending | 
+            Select-Object -Property NAme,Status,Starttype
+
+#Ip adreslerinden sadece ipv4 olanları ekranda görelim.
+
+Get-NetIPAddress -AddressFamily IPv4
+Get-NetIPAddress | Where-Object {$PSItem.AddressFamily -eq "IPv4"}
+
+#IP adreslerinden 127.0. ile başlamayanları ekranda görelim.
+Get-NetIPAddress | Where-Object {$PSItem.IPv4Address -notlike "127.0*"}
+
+#Volumelerden DriveType fixed olanları ekranda size ve sizeremaining hesaplanmış şekilde driveletter ile beraber görelim.
+
+Get-Volume | Where-Object {$PSItem.DriveType -eq "Fixed"} |
+    Select-Object -Property Driveletter,@{
+        n='SizeGB';
+        e={$PSItem.size / 1GB}
+    },
+    @{
+        n='SizeRemainingGB';
+        e={$PSItem.SizeRemaining / 1GB}
+    }
+
+
+Get-Service | Where-Object {$PSItem.Status -eq "Stopped" -and $PSItem.StartType -eq "automatic"} #| Where-Object {$PSItem.StartType -eq "Automatic"}
