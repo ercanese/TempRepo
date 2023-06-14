@@ -13,12 +13,12 @@ foreach ($t in $Services)
 
         
 
-        "[INFORMATION][$(Get-Date)] Trying Start Service Name ==> $($t.Name)" | Out-File -FilePath $FullLog
+        "[INFORMATION][$(Get-Date)] Trying Start Service Name ==> $($t.Name)" | Out-File -FilePath $FullLog -Append
     }
     catch 
     {
         Write-Host "[ERROR][$(Get-Date)] Trying Start Service Name ==> $($t.Name)" -ForegroundColor Red
-        "[ERROR][$(Get-Date)] Trying Start Service Name ==> $($t.Name)" | Out-File -FilePath $FullLog
+        "[ERROR][$(Get-Date)] Trying Start Service Name ==> $($t.Name)" | Out-File -FilePath $FullLog -Append
     }
 
 
