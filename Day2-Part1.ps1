@@ -107,3 +107,17 @@ Get-ChildItem -Path C:\Ansible -Recurse | Select-Object -Property Name,@{
     n = 'CreationTimeDays';
     e = {  (New-TimeSpan -Start $PSItem.CreationTime -End (Get-Date)).Days }
 }
+
+#Processlerin ekranda name path ve ne zaman başlatıldığını dakika olarak gösteren ve bu dakikaya göre sıralayan komutu yazalım.
+Get-Process | Get-Member
+Get-Process | Select-Object -Property Name,Path,@{
+    n = 'ProcessAge';
+    e = {(New-TimeSpan -Start $PSItem.starttime -End (Get-Date)).TotalMinutes}
+} | Sort-Object -Property ProcessAge
+
+#Makine üzerindeki yüklü olan hotfixleri getiren cmdleti bulalım ve kaç gün önce hotfixlerin yüklendiğini hesaplayan kodu yazalım.
+Get-Command -Verb * -Noun "*Hotfix*"
+Get-HotFix | Select-Object -Property HotFixID,Description,@{
+    n='HotfixAge';
+    e={ (New-TimeSpan -Start $PSItem.InstalledOn).Days}
+} | Sort-Object -Property HotfixAge
