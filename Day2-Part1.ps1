@@ -159,3 +159,53 @@ Get-Volume | Where-Object {$PSItem.DriveType -eq "Fixed"} |
 
 
 Get-Service | Where-Object {$PSItem.Status -eq "Stopped" -and $PSItem.StartType -eq "automatic"} #| Where-Object {$PSItem.StartType -eq "Automatic"}
+
+
+Get-Service | 
+    Where-Object {$PSItem.Status -eq "Stopped" -and $PSItem.StartType -eq "automatic"} | Format-Table -Wrap -AutoSize | 
+        Out-File -FilePath C:\temp\TbbPwsh\Servisler.txt -Append
+
+"Ercan ESE" | Out-File -FilePath C:\temp\TbbPwsh\Demo.txt -Append
+
+Get-Volume | Where-Object {$PSItem.DriveType -eq "Fixed"} |
+    Select-Object -Property Driveletter,@{
+        n='SizeGB';
+        e={[Math]::Round($PSItem.size / 1GB)}
+    },
+    @{
+        n='SizeRemainingGB';
+        e={[Math]::Round($PSItem.SizeRemaining / 1GB)}
+    } | Export-Csv -Path C:\temp\TbbPwsh\Disk.csv -NoTypeInformation -Append
+
+
+Get-Service | 
+    Where-Object {$PSItem.Status -eq "Stopped" -and $PSItem.StartType -eq "automatic"} | Convertto-csv
+
+
+Get-Service | 
+    Where-Object {$PSItem.Status -eq "Stopped" -and $PSItem.StartType -eq "automatic"}  | 
+        Select-Object -Property Name,Status,StartType | ConvertTo-Json | Out-File -FilePath C:\temp\TbbPwsh\Servisler.json
+
+
+@"
+{
+    Name : "ServiceName"
+}
+"@ 
+
+@"
+{
+    Name : "ServiceName"
+}
+"@ | ConvertFrom-Json
+
+
+Get-Service | 
+    Where-Object {$PSItem.Status -eq "Stopped" -and $PSItem.StartType -eq "automatic"}  | 
+        Select-Object -Property Name,Status,StartType | ConvertTo-Html | Out-File -FilePath C:\temp\TbbPwsh\Index.html
+
+
+
+Get-Service | 
+    Where-Object {$PSItem.Status -eq "Stopped" -and $PSItem.StartType -eq "automatic"}  | 
+        Select-Object -Property Name,Status,StartType | Out-GridView -OutputMode Multiple
