@@ -75,7 +75,35 @@ Get-Disk | Select-Object -Property FriendlyName,Size,@{
 
 Get-Process | 
     Select-Object -Property Name,ID,CPU,@{
-        n='CPUx2';
+        n ='CPUx2';
         e = {$_.cpu * 2}
     } | Sort-Object -Property ID
 
+
+
+Get-ChildItem -Path C:\Ansible
+
+New-TimeSpan -Start  "11/6/2022  10:57 AM" -End (Get-Date) | Select-Object -ExpandProperty Days
+Get-Service -Name ALG | Select-Object -ExpandProperty Name
+
+(New-TimeSpan -Start  "11/6/2022  10:57 AM" -End (Get-Date)).Days
+
+(Get-Service -Name ALG).Name
+
+
+Get-ChildItem -Path C:\Ansible | Get-Member
+
+Get-ChildItem -Path C:\Ansible | Select-Object -Property Name,LastWriteTime,LastAccessTime,CreationTime
+
+Get-ChildItem -Path C:\Ansible -Recurse | Select-Object -Property Name,@{
+    n = 'LastWriteTimeDays';
+    e = {  (New-TimeSpan -Start $PSItem.LastWriteTime -End (Get-Date)).Days }
+},
+@{
+    n = 'LastAccessTimeDays';
+    e = {  (New-TimeSpan -Start $PSItem.LastAccessTime -End (Get-Date)).Days }
+},
+@{
+    n = 'CreationTimeDays';
+    e = {  (New-TimeSpan -Start $PSItem.CreationTime -End (Get-Date)).Days }
+}
