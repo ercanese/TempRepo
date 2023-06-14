@@ -65,5 +65,17 @@ Get-Volume |
 
 
 #Disk boyutlarını GB cinsinden hesaplayan komutu yazalım ve sıfırlardan arındıralım.
+Get-Disk | Get-Member
+Get-Disk | Select-Object -Property FriendlyName,Size,@{
+    n ='SizeGB';
+    e = {'{0:N2}' -f ($PSItem.Size / 1GB)}
+}
+
 #Processlerden cpu değerini 2 ile çarparak ekranda id ye göre sıralı olacak şekilde Name,id ve cpu değerlerini görelim.
+
+Get-Process | 
+    Select-Object -Property Name,ID,CPU,@{
+        n='CPUx2';
+        e = {$_.cpu * 2}
+    } | Sort-Object -Property ID
 
